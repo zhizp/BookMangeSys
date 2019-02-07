@@ -64,7 +64,8 @@ public class LoginController extends SupportAction {
      */
     @RequestMapping(value = "/login")
     @ResponseBody
-    public Map<String, Object> login(HttpServletRequest req,@RequestBody Map<String, Object> paramsMap) throws IOException{
+    public Map<String, Object> login(HttpServletRequest req) throws IOException{
+    	Map<String, Object> paramsMap = PageUtils.getParameters(req);
     	Map<String, Object> result = new HashMap<String, Object>();
     	try {
 		 UserDTO user=new UserDTO();

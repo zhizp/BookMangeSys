@@ -12,11 +12,11 @@
 		select count(1) from t_book where type=#{type} order by name
 	</select>
 	<select id="searchBook" parameterType="Map" resultType="Map">
-		select * from t_book where  ( 1=1 
-		<if test="keyword!=null and keyword!=''">
-		or name=#{keyword} or author=#{keyword} or press=#{keyword}
-		</if>
-		) order by name
+		select * from t_book where 
+		 name like CONCAT('%','${keyword}','%' ) 
+		 or author like CONCAT('%','${keyword}','%' ) 
+		 or press like CONCAT('%','${keyword}','%' ) 
+		order by name
 		limit #{page},#{pagesize}
 	</select>
 	<select id="searchBookCount" parameterType="Map" resultType="int">

@@ -87,10 +87,11 @@ public class BookController {
 	 */
 	@RequestMapping("/getBookDetailByid")
 	@ResponseBody
-	public Map<String,Object> getBookDetailByid(HttpServletRequest req,@RequestBody Map<String, Object> paramsMap){
+	public Map<String,Object> getBookDetailByid(HttpServletRequest req){
+		Map<String, Object> params = PageUtils.getParameters(req);
 		Map<String,Object> resultMap=new HashMap<String,Object>();
-		Map<String,Object> bookDetail=new HashMap<String,Object>();
-		bookDetail=bookService.getBookDetailByid(paramsMap);
+		
+		Map<String,Object> bookDetail=bookService.getBookDetailByid(params);
 		resultMap.put("data", bookDetail);
 		return resultMap;
 	}
