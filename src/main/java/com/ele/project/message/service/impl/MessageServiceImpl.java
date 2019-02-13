@@ -25,7 +25,7 @@ public class MessageServiceImpl implements MessageService{
 	public int insertMessage(Map params){
 		return messageDao.insertMessage(params);
 	}
-	public int deleteMessageByid(Map params){
-		return messageDao.deleteMessageByid(params);
+	public int deleteMessageByid(String ids){
+		return messageDao.deleteMessageByid(ids);
 	}
 }

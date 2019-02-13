@@ -46,6 +46,12 @@ public class MessageController {
 		params.put("pagesize", pagesize);
 		messageList=messageService.getMessageList(params);
 		int count=messageService.getMessageListCount(params);
+		Map<String,Object> checkMap=new HashMap<String,Object>();
+		checkMap.put("checked", false);
+		for(int i=0;i<messageList.size();i++) {
+			messageList.add(checkMap);
+		}
+		
 		resultMap.put("total", count);
 		resultMap.put("data", messageList);
 		return resultMap;
@@ -81,7 +87,27 @@ public class MessageController {
 	public Map<String,Object> deleteMessageByid(HttpServletRequest req){
 		Map<String, Object> params = PageUtils.getParameters(req);
 		Map<String,Object> resultMap=new HashMap<String,Object>();
-		int i=messageService.deleteMessageByid(params);
+		String ids="";
+		if(params.get("ids").toString().isEmpty()){
+			ids= "('')";
+		}else {
+			StringBuffer temp = new StringBuffer();
+			temp.append("(");
+			String[] strArray=params.get("ids").toString().split(",");
+			if (strArray != null && strArray.length > 0 ) {
+				for (int i = 0; i < strArray.length; i++) {
+					temp.append("'");
+					temp.append(strArray[i]);
+					temp.append("'");
+					if (i !=  (strArray.length-1) ) {
+						temp.append(",");
+					}
+				}
+			}
+			temp.append(")");
+			ids=temp.toString();
+		}
+		int i=messageService.deleteMessageByid(ids);
 		if(i<0) {
 			resultMap.put("rs", false);
 			resultMap.put("msg", "删除消息失败");
