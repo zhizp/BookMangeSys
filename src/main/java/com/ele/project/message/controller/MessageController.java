@@ -46,12 +46,9 @@ public class MessageController {
 		params.put("pagesize", pagesize);
 		messageList=messageService.getMessageList(params);
 		int count=messageService.getMessageListCount(params);
-		Map<String,Object> checkMap=new HashMap<String,Object>();
-		checkMap.put("checked", false);
 		for(int i=0;i<messageList.size();i++) {
-			messageList.add(checkMap);
+			messageList.get(i).put("checked",false);
 		}
-		
 		resultMap.put("total", count);
 		resultMap.put("data", messageList);
 		return resultMap;

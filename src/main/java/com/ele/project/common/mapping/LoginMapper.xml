@@ -74,13 +74,18 @@
 	<select id="getOldPwdByid" parameterType="Map" resultType="Map">
 		select * from t_user where id=#{id}
 	</select>
+	<select id="checkoldPasswordByid" parameterType="Map" resultType="Map">
+		select * from t_user where id=#{userid} and password=#{oldpwd}
+	</select>
 	<update id="updatePasswordByid" parameterType="Map">
-		update t_user set password=#{password} where id=#{id} 
+		update t_user set password=#{password} where id=#{userid} 
 	</update>
 	<select id="getUserInfoByUserid" parameterType="Map" resultType="Map">
-		select id,name,username,sex,password,date_format(registerdate,'%Y-%m-%d'),cardid,mobile,totalborrow
-		from t_user 
-		where id=#{userid}
+		select u.id,u.name,u.username,u.sex,u.password,date_format(u.registerdate,'%Y-%m-%d') as registerdate,
+		u.cardid,u.mobile,u.totalborrow,COUNT(v.id) AS violats,v.finepay,v.finepaid
+		from t_user u
+		left join t_violate v on u.id=v.userid
+		where u.id=#{userid}
 	</select>
 	<update id="updateUserByid" parameterType="Map">
 		update t_user set name=#{name},username=#{username},sex=#{sex},password=#{password},cardid=#{cardid},

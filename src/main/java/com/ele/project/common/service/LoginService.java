@@ -16,6 +16,7 @@ public interface LoginService {
 	public int updateUserState(Map userMap);
 	public Map<String,Object> getOldPwdByid(Map params);
 	public int updatePasswordByid(Map params);
+	public Map<String,Object> checkoldPasswordByid(Map params);
 	public Map<String,Object> getUserInfoByUserid(Map params);
 	public int updateUserByid(Map params);
 }

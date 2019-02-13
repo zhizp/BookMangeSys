@@ -250,6 +250,12 @@ public class LoginController extends SupportAction {
     public Map<String, Object> updatePasswordByid(HttpServletRequest req) {
     	Map<String, Object> params = PageUtils.getParameters(req);
     	Map<String, Object> returnMap = new HashMap<String, Object>();
+    	Map<String, Object> oldMap=loginService.checkoldPasswordByid(params);
+    	if(oldMap==null) {
+    		returnMap.put("rs", false);
+    		returnMap.put("msg", "原密码输入错误");
+    		return returnMap;
+    	}
     	int i=loginService.updatePasswordByid(params);
     	if(i>0) {
     		returnMap.put("rs", true);

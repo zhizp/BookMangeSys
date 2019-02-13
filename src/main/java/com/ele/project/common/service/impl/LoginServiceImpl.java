@@ -50,6 +50,9 @@ public class LoginServiceImpl implements LoginService {
 	public int updatePasswordByid(Map params){
 		return loginDao.updatePasswordByid(params);
 	}
+	public Map<String,Object> checkoldPasswordByid(Map params){
+		return loginDao.checkoldPasswordByid(params);
+	}
 	public Map<String,Object> getUserInfoByUserid(Map params){
 		return loginDao.getUserInfoByUserid(params);
 	}
