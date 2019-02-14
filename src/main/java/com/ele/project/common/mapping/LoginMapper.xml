@@ -21,7 +21,6 @@
 					,state
 					,registerdate
 					,mobile
-					,totalborrow
 			)values(
 				#{id}
 				,#{username}
@@ -34,36 +33,23 @@
 				,0
 				,#{registerdate}
 				,#{mobile}
-				,#{totalborrow}
 				)
 	</insert>
 	<select id="queryUserList" parameterType="Map" resultType="Map">
-		select * from t_user where  state=0 and allowborrow=0 and ( 1=1 
-		<if test="username!=null and username!=''">
-			or username=#{username,jdbcType=VARCHAR}
-		</if>
-		<if test="name!=null and name!=''">
+		select * from t_user where  state=0 and allowborrow=0 and (  
+		    username=#{username,jdbcType=VARCHAR}
 			or name=#{name,jdbcType=VARCHAR}
-		</if>
-		<if test="cardid!=null and cardid!=''">
 			or cardid=#{cardid,jdbcType=VARCHAR}
-		</if>
 		)
 		order by username 
 		LIMIT #{page},#{pagesize}
 	</select>
 	<select id="queryUserCount" parameterType="Map" resultType="int">
-		select count(1) from t_user where   state=0 and allowborrow=0 and ( 1=1 
-		<if test="username!=null and username!=''">
-			or username=#{username,jdbcType=VARCHAR}
-		</if>
-		<if test="name!=null and name!=''">
+		select count(1) from t_user where  state=0 and allowborrow=0 and (  
+		    username=#{username,jdbcType=VARCHAR}
 			or name=#{name,jdbcType=VARCHAR}
-		</if>
-		<if test="cardid!=null and cardid!=''">
 			or cardid=#{cardid,jdbcType=VARCHAR}
-		</if>
-		)
+		) 
 	</select>
 	<delete id="deleteUserById" parameterType="String">
 		delete from t_user where id=#{userid,jdbcType=VARCHAR}
@@ -81,7 +67,7 @@
 		update t_user set password=#{password} where id=#{userid} 
 	</update>
 	<select id="getUserInfoByUserid" parameterType="Map" resultType="Map">
-		select u.id,u.name,u.username,u.sex,u.password,date_format(u.registerdate,'%Y-%m-%d') as registerdate,
+		select u.id,u.name,u.username,u.sex,u.password,u.mobile,u.cardid,u.allowborrow,u.manager,date_format(u.registerdate,'%Y-%m-%d') as registerdate,
 		u.cardid,u.mobile,u.totalborrow,COUNT(v.id) AS violats,v.finepay,v.finepaid
 		from t_user u
 		left join t_violate v on u.id=v.userid
@@ -89,7 +75,7 @@
 	</select>
 	<update id="updateUserByid" parameterType="Map">
 		update t_user set name=#{name},username=#{username},sex=#{sex},password=#{password},cardid=#{cardid},
-		registerdate=str_to_date(#{registerdate},'%Y-%m-%d'),mobile=#{mobile},allowborrow=#{allowborrow}
+		registerdate= #{registerdate},mobile=#{mobile},allowborrow=#{allowborrow}
 		where id=#{userid}
 	</update>
 </mapper>

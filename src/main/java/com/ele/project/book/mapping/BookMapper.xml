@@ -43,6 +43,9 @@
 			,callno
 			,pagination
 			,intro
+			,isbn
+			,storagelocation
+			,publishingtime
 		)values(
 			#{id}
 		,#{name}
@@ -55,6 +58,9 @@
 		,#{callno}
 		,#{pagination}
 		,#{intro}
+		,#{isbn}
+		,#{storagelocation}
+		,#{publishingtime}
 		)
 	</insert>
 	<update id="updateBook" parameterType="Map">
@@ -69,6 +75,9 @@
 			,callno=#{callno}
 			,pagination=#{pagination}
 			,intro=#{intro}
+			,isbn=#{isbn}
+			,storagelocation=#{storagelocation}
+			,publishingtime=#{publishingtime}
 			where id=#{id}
 	</update>
 	<delete id="deleteBook" parameterType="Map">

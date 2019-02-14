@@ -110,6 +110,8 @@ public class BookController {
 		int i=bookService.insertBook(params);
 		if(i>0) {
 			resultMap.put("rs", true);
+			resultMap.put("msg", "添加图书成功");
+			return resultMap;
 		}
 		resultMap.put("rs", false);
 		resultMap.put("msg", "添加图书失败");
@@ -132,6 +134,7 @@ public class BookController {
 		if(i>0) {
 			resultMap.put("rs", true);
 			resultMap.put("msg", "修改成功");
+			return resultMap;
 		}
 		resultMap.put("rs", false);
 		resultMap.put("msg", "修改失败");
@@ -154,6 +157,7 @@ public class BookController {
 		if(i>0) {
 			resultMap.put("rs", true);
 			resultMap.put("msg", "删除成功");
+			return resultMap;
 		}
 		resultMap.put("rs", false);
 		resultMap.put("msg", "删除失败");
