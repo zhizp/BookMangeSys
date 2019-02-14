@@ -8,16 +8,13 @@
 	</insert>
 	
 	<select id="getViolateinfo" parameterType="Map" resultType="Map">
-		select b.id,bk.name,bk.author,bk.callno,date_format(b.borrowdate,'%Y-%m-%d') as borrowdate,
-		date_format(b.returningdate,'%Y-%m-%d') as returningdate,v.extendday,v.finepay	
+		select b.id,bk.name,bk.author,bk.callno,b.borrowdate,bk.coverimg,
+		b.returningdate,v.extendday,v.finepay	
 		from t_borrow b 
 		left join t_book bk on bk.id=b.bookid 
 		left join t_user u on u.id=b.userid
 		left join t_violate v on v.borrowid=b.id
-		where 1=1 
-		<if test="username!=null and username!=''">
-			and u.username=#{username}
-		</if>
+		where u.id=#{userid}
 		order by bk.name
 		limit #{page},#{pagesize} 
 	</select>
@@ -27,10 +24,7 @@
 		left join t_book bk on bk.id=b.bookid 
 		left join t_user u on u.id=b.userid
 		left join t_violate v on v.borrowid=b.id
-		where 1=1 
-		<if test="username!=null and username!=''">
-			and u.username=#{username}
-		</if>
+		where  u.id=#{userid}
 	</select>
 	<delete id="deleteViolate" parameterType="java.util.List">
         delete from t_violate where id in 

@@ -55,7 +55,7 @@
 		</if>
 	</select>
 	<select id="getCurrentBorrowedByUserid" parameterType="Map" resultType="Map">
-		select b.id,b.borrowdate,b.returningdate,bk.name,bk.author,bk.callno
+		select b.id,b.borrowdate,b.returningdate,b.state,bk.name,bk.author,bk.callno,bk.coverimg
 		from t_borrow b
 		left join t_user u on u.id=b.userid
 		left join t_book bk on bk.id=b.bookid
@@ -73,14 +73,14 @@
 		select b.id,b.borrowdate,b.returneddate,b.returningdate,bk.name,bk.author,bk.callno
 		from t_borrow b
 		left join t_book bk on bk.id=b.bookid
-		where b.state=1 and b.userid=#{userid} order by bk.name
+		where  b.userid=#{userid} order by bk.name
 		limit #{page},#{pagesize} 
 	</select>
 	<select id="getHistoricalBorrowingCountByUserid" parameterType="Map" resultType="int">
 		select count(1)
 		from t_borrow b
 		left join t_book bk on bk.id=b.bookid
-		where b.state=1 and b.userid=#{userid}
+		where b.userid=#{userid}
 	</select>
 	<update id="updateTotalborrowToUser" parameterType="Map">
 		update t_user set totalborrow=totalborrow+1 where id=#{userid}
