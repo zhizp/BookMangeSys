@@ -109,38 +109,40 @@ public class LoginController extends SupportAction {
      */
     @RequestMapping(value = "/registe")
     @ResponseBody
-    public Map<String, Object> registe(HttpServletRequest req,@RequestBody Map<String, Object> paramsMap) throws IOException{
+    public Map<String, Object> registe(HttpServletRequest req) throws IOException{
     	Map<String, Object> result = new HashMap<String, Object>();
+    	Map<String, Object> paramsMap = PageUtils.getParameters(req);
     	try {
-		Map<String,Object> userMap=new HashMap<String,Object>();
+		//Map<String,Object> userMap=new HashMap<String,Object>();
 	     //获取登录名和密码
-		 if(paramsMap.containsKey("username")){
+		 /*if(paramsMap.containsKey("username")){
 			 userMap.put("username", paramsMap.get("username").toString());
          }
 		 if(paramsMap.containsKey("password")){
 			 userMap.put("password",paramsMap.get("password").toString());
-		 }
-		 List<Map<String,Object>> hasList=loginService.getUserDTOByName(userMap);
+		 }*/
+		 List<Map<String,Object>> hasList=loginService.getUserDTOByName(paramsMap);
 		 if(hasList.size()>0) {
-			 result.put("success", false);
+			 result.put("rs", false);
 			 result.put("msg", "用户名已存在，请重新输入!");
 			 return result;
 		 }
-		 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		 /*SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     	 String nowdate=sdf.format(new Date());
-		 userMap.put("registerdate", nowdate);
-		 userMap.put("id", UUID.randomUUID().toString());
-	     int i = loginService.insertUser(userMap);
+		 userMap.put("registerdate", nowdate);*/
+		 paramsMap.put("id", UUID.randomUUID().toString());
+	     int i = loginService.insertUser(paramsMap);
 	     if(i>0) {
-	    	 result.put("success", true);
+	    	 result.put("rs", true);
+	    	 result.put("msg", "保存成功");
 	     }else {
-	    	 result.put("success", false);
-	    	 result.put("msg", "注册失败");
+	    	 result.put("rs", false);
+	    	 result.put("msg", "保存失败");
 	     }
     	}catch(Exception e) {
     		e.printStackTrace();
-			result.put("success", false);
-			result.put("msg", "注册失败," + e.getMessage());
+			result.put("rs", false);
+			result.put("msg", "保存失败," + e.getMessage());
     	}
     	return result;
     }
@@ -160,11 +162,15 @@ public class LoginController extends SupportAction {
     
     
     @RequestMapping(value = "/logout")
-    public String logout(HttpSession session){
+    @ResponseBody
+    public Map<String, Object> logout(HttpSession session){
+    	Map<String, Object> result = new HashMap<String, Object>();
         //清除session
         session.invalidate();
+        result.put("rs", true);
+        result.put("msg", "退出成功");
         //重定向到登录页面的跳转方法
-        return "redirect:toLogin";
+        return result;
     }
     
     /**
@@ -178,8 +184,6 @@ public class LoginController extends SupportAction {
 		List<Map<String,Object>> userlist=new ArrayList<Map<String,Object>>();
     	Map<String, Object> result = new HashMap<String, Object>();
     	Map<String, Object> params = PageUtils.getParameters(req);
-    	UserDTO user=(UserDTO) req.getSession().getAttribute("user");
-    	String username=user.getUsername();
     	int page=0;
 		int pagesize=10;
 		if(params.get("page")!=null) {
@@ -190,7 +194,6 @@ public class LoginController extends SupportAction {
 		}
 		params.put("page", page);
 		params.put("pagesize", pagesize);
-		params.put("username", username);
     	userlist=loginService.queryUserList(params);
     	int count=loginService.queryUserCount(params);
 		result.put("total", count);
