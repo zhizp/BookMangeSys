@@ -73,6 +73,36 @@ public class ViolateController {
 		resultMap.put("count", count);
 		return resultMap;
 	}
+	/**
+	 * 违章管理查询
+	 * @param req 传入账号、书名或条形码
+	 * @return
+	 */
+	@RequestMapping("/getViolatemnglist")
+	@ResponseBody
+	public Map<String,Object> getViolatemnglist(HttpServletRequest req){
+		Map<String, Object> params = PageUtils.getParameters(req);
+		Map<String,Object> resultMap=new HashMap<String,Object>();
+		int page=0;
+		int pagesize=10;
+		if(params.get("page")!=null) {
+			page=Integer.parseInt(params.get("page").toString());
+		}
+		if(params.get("pagesize")!=null) {
+			pagesize=Integer.parseInt(params.get("pagesize").toString());
+		}
+		params.put("page", page);
+		params.put("pagesize", pagesize);
+		/*if(params.get("username")!=null) {
+			params.put("keyword", "0");
+		}else if(params.get("name")!=null && params.get("callno")!=null) {
+			params.put("keyword", "1");
+		}*/
+		List<Map<String,Object>> vioList=violateService.getViolatemnglist(params);
+		
+		resultMap.put("data", vioList);
+		return resultMap;
+	}
 	
 	/**
 	 * 缴纳罚款

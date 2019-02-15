@@ -18,6 +18,26 @@
 		order by bk.name
 		limit #{page},#{pagesize} 
 	</select>
+	<select id="getViolatemnglist" parameterType="Map" resultType="Map">
+		select b.id,bk.name,bk.author,bk.callno,b.borrowdate,bk.coverimg,
+		b.returningdate,v.extendday,v.finepay,u.id as userid,u.username,u.name as xingming	
+		from t_borrow b 
+		left join t_book bk on bk.id=b.bookid 
+		left join t_user u on u.id=b.userid
+		left join t_violate v on v.borrowid=b.id
+		where 1=1
+		<if test="userid!=null and userid!=''">
+			and u.id=#{userid}
+		</if>
+		<if test="username!=null and username!=''">
+			and u.username=#{username}
+		</if>
+		<if test="name!=null and name!='' and callno!=null and callno!=''">
+			and (bk.name=#{name} or bk.callno=#{callno})
+		</if>
+		order by bk.name
+		limit #{page},#{pagesize} 
+	</select>
 	<select id="getViolateinfoCount" parameterType="Map" resultType="int">
 		select count(1)
 		from t_borrow b 

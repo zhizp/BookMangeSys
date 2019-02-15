@@ -35,7 +35,7 @@
 		<if test="username!=null and username!=''">
 		and u.username=#{username}
 		</if>
-		<if test="username!=null and username!=''">
+		<if test="callno!=null and callno!=''">
 		and bk.callno=#{callno}
 		</if>
 		order by bk.name
@@ -50,7 +50,7 @@
 		<if test="username!=null and username!=''">
 		and u.username=#{username}
 		</if>
-		<if test="username!=null and username!=''">
+		<if test="callno!=null and callno!=''">
 		and bk.callno=#{callno}
 		</if>
 	</select>

@@ -23,6 +23,9 @@ public class ViolateServiceImpl implements ViolateService {
 	public List<Map<String,Object>> getViolateinfo(Map params){
 		return violateDao.getViolateinfo(params);
 	}
+	public List<Map<String,Object>> getViolatemnglist(Map params){
+		return violateDao.getViolatemnglist(params);
+	}
 	public int getViolateinfoCount(Map params) {
 		return violateDao.getViolateinfoCount(params);
 	}
