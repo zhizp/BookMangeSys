@@ -19,13 +19,13 @@
 		limit #{page},#{pagesize} 
 	</select>
 	<select id="getViolatemnglist" parameterType="Map" resultType="Map">
-		select b.id,bk.name,bk.author,bk.callno,b.borrowdate,bk.coverimg,
-		b.returningdate,v.extendday,v.finepay,u.id as userid,u.username,u.name as xingming	
-		from t_borrow b 
-		left join t_book bk on bk.id=b.bookid 
-		left join t_user u on u.id=b.userid
-		left join t_violate v on v.borrowid=b.id
-		where 1=1
+		SELECT b.id,bk.name,bk.author,bk.callno,b.borrowdate,bk.coverimg,
+		b.returningdate,v.extendday,v.finepay,v.id AS vid,u.id AS userid,u.username,u.name AS xingming	
+		FROM t_violate v  
+		LEFT JOIN t_user u ON u.id=v.userid
+		LEFT JOIN t_borrow b ON v.borrowid=b.id
+		LEFT JOIN t_book bk ON bk.id=b.bookid 
+		WHERE 1=1
 		<if test="userid!=null and userid!=''">
 			and u.id=#{userid}
 		</if>
@@ -46,11 +46,7 @@
 		left join t_violate v on v.borrowid=b.id
 		where  u.id=#{userid}
 	</select>
-	<delete id="deleteViolate" parameterType="java.util.List">
-        delete from t_violate where id in 
-        <foreach collection="list" item="id"
-                 open="(" close=")" index="index" separator=",">
-            #{vids}
-        </foreach>
+	<delete id="deleteViolate" parameterType="java.lang.String">
+        delete from t_violate where id in ${_parameter}
     </delete>
 </mapper>

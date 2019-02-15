@@ -11,6 +11,18 @@
 	<select id="getBookListCount" parameterType="Map" resultType="int">
 		select count(1) from t_book where type=#{type} order by name
 	</select>
+	<select id="gethotbook" parameterType="Map" resultType="Map">
+		SELECT COUNT(b.id) AS bookcount, b.id,bk.id AS bookid,tp.typetext,bk.name,bk.author 
+		FROM t_borrow b LEFT JOIN t_book bk ON b.`bookid`=bk.`id`
+		LEFT JOIN t_type tp ON bk.type=tp.type
+		GROUP BY b.bookid ORDER BY COUNT(b.id) DESC
+		limit #{page},#{pagesize}
+	</select>
+	<select id="gethotbookCount" parameterType="Map" resultType="int">
+		SELECT count(1)
+		FROM t_borrow b LEFT JOIN t_book bk ON b.`bookid`=bk.`id`
+		LEFT JOIN t_type tp ON bk.type=tp.type
+	</select>
 	<select id="searchBook" parameterType="Map" resultType="Map">
 		select * from t_book where 
 		 name like CONCAT('%','${keyword}','%' ) 

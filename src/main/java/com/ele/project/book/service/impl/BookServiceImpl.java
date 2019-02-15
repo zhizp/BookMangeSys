@@ -23,6 +23,13 @@ public class BookServiceImpl implements BookService{
 	public int getBookListCount(Map bookMap) {
 		return bookDao.getBookListCount(bookMap);
 	}
+	public List<Map<String,Object>> gethotbook(Map bookMap){
+		return bookDao.gethotbook(bookMap);
+	}
+	
+	public int gethotbookCount(Map bookMap) {
+		return bookDao.gethotbookCount(bookMap);
+	}
 	
 	public List<Map<String,Object>> searchBook(Map bookMap){
 		return bookDao.searchBook(bookMap);

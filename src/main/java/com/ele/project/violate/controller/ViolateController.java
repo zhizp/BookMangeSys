@@ -93,11 +93,6 @@ public class ViolateController {
 		}
 		params.put("page", page);
 		params.put("pagesize", pagesize);
-		/*if(params.get("username")!=null) {
-			params.put("keyword", "0");
-		}else if(params.get("name")!=null && params.get("callno")!=null) {
-			params.put("keyword", "1");
-		}*/
 		List<Map<String,Object>> vioList=violateService.getViolatemnglist(params);
 		
 		resultMap.put("data", vioList);
@@ -114,15 +109,31 @@ public class ViolateController {
 	public Map<String,Object> payViolate(HttpServletRequest req){
 		Map<String, Object> params = PageUtils.getParameters(req);
 		Map<String,Object> resultMap=new HashMap<String,Object>();
-		List<String> vids=new ArrayList<String>();
-		String[] ids=params.get("ids").toString().split(",");
-		for(int i=0;i<ids.length;i++) {
-			vids.add(ids[i]);
+		String ids="";
+		if(params.get("ids").toString().isEmpty()){
+			ids= "('')";
+		}else {
+			StringBuffer temp = new StringBuffer();
+			temp.append("(");
+			String[] strArray=params.get("ids").toString().split(",");
+			if (strArray != null && strArray.length > 0 ) {
+				for (int i = 0; i < strArray.length; i++) {
+					temp.append("'");
+					temp.append(strArray[i]);
+					temp.append("'");
+					if (i !=  (strArray.length-1) ) {
+						temp.append(",");
+					}
+				}
+			}
+			temp.append(")");
+			ids=temp.toString();
 		}
-		int i=violateService.deleteViolate(vids);
-		if(i<0) {
+		int i=violateService.deleteViolate(ids);
+		if(i<=0) {
 			resultMap.put("rs", false);
 			resultMap.put("msg", "缴纳失败");
+			return resultMap;
 		}
 		resultMap.put("rs", true);
 		resultMap.put("msg", "缴纳成功");

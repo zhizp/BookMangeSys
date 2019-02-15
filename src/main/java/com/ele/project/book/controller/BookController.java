@@ -163,6 +163,33 @@ public class BookController {
 		resultMap.put("msg", "删除失败");
 		return resultMap;
 	}
+	/**
+	 * 排行榜
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping("/gethotbook")
+	@ResponseBody
+	public Map<String,Object> gethotbook(HttpServletRequest req){
+		Map<String, Object> params = PageUtils.getParameters(req);
+		Map<String,Object> resultMap=new HashMap<String,Object>();
+		List<Map<String,Object>> booklist=new ArrayList<Map<String,Object>>();
+		int page=0;
+		int pagesize=10;
+		if(params.get("page")!=null) {
+			page=Integer.parseInt(params.get("page").toString());
+		}
+		if(params.get("pagesize")!=null) {
+			pagesize=Integer.parseInt(params.get("pagesize").toString());
+		}
+		params.put("page", page);
+		params.put("pagesize", pagesize);
+		booklist=bookService.gethotbook(params);
+		int count=bookService.gethotbookCount(params);
+		resultMap.put("total", count);
+		resultMap.put("data", booklist);
+		return resultMap;
+	}
 	
 	
 	

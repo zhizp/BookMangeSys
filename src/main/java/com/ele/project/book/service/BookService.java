@@ -7,6 +7,8 @@ public interface BookService {
 
 	public List<Map<String,Object>> getBookList(Map bookMap);
 	public int getBookListCount(Map bookMap);
+	public List<Map<String,Object>> gethotbook(Map bookMap);
+	public int gethotbookCount(Map bookMap);
 	public List<Map<String,Object>> searchBook(Map bookMap);
 	public int searchBookCount(Map bookMap);
 	public Map<String,Object> getBookDetailByid(Map bookMap);

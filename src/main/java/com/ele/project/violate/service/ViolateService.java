@@ -9,5 +9,5 @@ public interface ViolateService {
 	public List<Map<String,Object>> getViolateinfo(Map params);
 	public List<Map<String,Object>> getViolatemnglist(Map params);
 	public int getViolateinfoCount(Map params);
-	public int deleteViolate(List<String> params);
+	public int deleteViolate(String ids);
 }

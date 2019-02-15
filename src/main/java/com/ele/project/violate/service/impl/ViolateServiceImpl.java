@@ -29,7 +29,7 @@ public class ViolateServiceImpl implements ViolateService {
 	public int getViolateinfoCount(Map params) {
 		return violateDao.getViolateinfoCount(params);
 	}
-	public int deleteViolate(List<String> params) {
-		return violateDao.deleteViolate(params);
+	public int deleteViolate(String ids) {
+		return violateDao.deleteViolate(ids);
 	}
 }
