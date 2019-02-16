@@ -45,5 +45,17 @@ public class BorrowServiceImpl implements BorrowService {
 	public int updateTotalborrowToUser(Map params) {
 		return borrowDao.updateTotalborrowToUser(params);
 	}
+	public int updateCollectnumToBook(Map params) {
+		return borrowDao.updateCollectnumToBook(params);
+	}
+	public List<Map<String,Object>> getCurrentBorrowBookByUserOrBookId(Map params){
+		return borrowDao.getCurrentBorrowBookByUserOrBookId(params);
+	}
+	public int returnBooks(Map params) {
+		return borrowDao.returnBooks(params);
+	}
+	public List<Map<String,Object>> getCurrentBorrowBookByBorrowId(Map params){
+		return borrowDao.getCurrentBorrowBookByBorrowId(params);
+	}
 	
 }

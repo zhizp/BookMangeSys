@@ -35,6 +35,10 @@ public class BookServiceImpl implements BookService{
 		return bookDao.searchBook(bookMap);
 	}
 	
+	public List<Map<String,Object>> getBookDetailByCallno(Map bookMap){
+		return bookDao.getBookDetailByCallno(bookMap);
+	}
+	
 	public int searchBookCount(Map bookMap) {
 		return bookDao.searchBookCount(bookMap);
 	}

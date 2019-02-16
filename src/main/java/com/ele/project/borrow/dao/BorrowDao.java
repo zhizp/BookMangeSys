@@ -14,5 +14,8 @@ public interface BorrowDao {
 	public List<Map<String,Object>> getHistoricalBorrowingByUserid(Map params);
 	public int getHistoricalBorrowingCountByUserid(Map params);
 	public int updateTotalborrowToUser(Map params);
-	
+	public int updateCollectnumToBook(Map params);
+	public List<Map<String,Object>> getCurrentBorrowBookByUserOrBookId(Map params);
+	public int returnBooks(Map params);
+	public List<Map<String,Object>> getCurrentBorrowBookByBorrowId(Map params);
 }

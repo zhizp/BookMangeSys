@@ -9,6 +9,7 @@ public interface BookDao {
 	public List<Map<String,Object>> gethotbook(Map bookMap);
 	public int gethotbookCount(Map bookMap);
 	public List<Map<String,Object>> searchBook(Map bookMap);
+	public List<Map<String,Object>> getBookDetailByCallno(Map bookMap);
 	public int searchBookCount(Map bookMap);
 	public Map<String,Object> getBookDetailByid(Map bookMap);
 	public int insertBook(Map params);

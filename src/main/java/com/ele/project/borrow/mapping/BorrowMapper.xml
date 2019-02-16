@@ -85,4 +85,40 @@
 	<update id="updateTotalborrowToUser" parameterType="Map">
 		update t_user set totalborrow=totalborrow+1 where id=#{userid}
 	</update>
+	<update id="updateCollectnumToBook" parameterType="Map">
+		update t_book set collectnum=collectnum-1 where id=#{bookid}
+	</update>
+	<select id="getCurrentBorrowBookByUserOrBookId" parameterType="Map" resultType="Map">
+		select b.id, 
+		u.cardid,u.sex,u.totalborrow , 
+		bk.callno,bk.name,bk.author,bk.type,bk.price,b.state
+		from t_borrow b 
+		left join t_user u on b.userid=u.id
+		left join t_book bk on b.bookid=bk.id
+		where b.state=0  
+		<if test="username!=null and username!=''">
+		and u.username=#{username}
+		</if>
+		<if test="callno!=null and callno!=''">
+		and bk.callno=#{callno}
+		</if>
+		order by bk.name
+		
+	</select>
+	<update id="returnBooks" parameterType="Map">
+		update t_borrow set state=1,returneddate=#{returneddate} where id in (#{id})
+	</update>
+	<select id="getCurrentBorrowBookByBorrowId" parameterType="Map" resultType="Map">
+		select b.id, u.username,u.name,
+		u.cardid,u.sex,b.borrowdate,b.returningdate,
+		bk.callno,bk.name bookname,bk.author,bk.type,bk.price,b.state
+		from t_borrow b 
+		left join t_user u on b.userid=u.id
+		left join t_book bk on b.bookid=bk.id
+		where b.state=0  
+		<if test="id!=null and id!=''">
+		and b.id=#{id}
+		</if>
+		
+	</select>
 </mapper>

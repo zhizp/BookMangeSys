@@ -53,10 +53,60 @@ public class BorrowController {
 			return resultMap;
 		}
 		borrowService.updateTotalborrowToUser(params);//用户表累计借书+1
+		borrowService.updateCollectnumToBook(params);//图书可借数-1
 		resultMap.put("rs", true);
 		resultMap.put("msg", "借阅成功");
 		return resultMap;
 	}
+	/**
+	 * 根据用户账号名或图书条形码查询未还图书详情 
+	 * @param req 传入用户id，图书id
+	 * @return
+	 */
+	@RequestMapping("/getCurrentBorrowBookByUserOrBookId")
+	@ResponseBody
+	public Map<String,Object> getCurrentBorrowBookByUserOrBookId(HttpServletRequest req){
+		Map<String, Object> params = PageUtils.getParameters(req);
+		Map<String,Object> resultMap=new HashMap<String,Object>();
+		
+		List<Map<String,Object>> books=borrowService.getCurrentBorrowBookByUserOrBookId(params);
+		if(!books.isEmpty()){
+			resultMap.put("success", true);
+			resultMap.put("books", books);
+    	}else{
+    		resultMap.put("success", false);
+    		resultMap.put("msg", "没有记录!");
+    	}
+//		resultMap.put("data", books);
+		return resultMap;
+	}
+	
+	/**
+	 * 还书 
+	 * @param req 传入用户id，图书id
+	 * @return
+	 */
+	@RequestMapping("/returnBooks")
+	@ResponseBody
+	public Map<String,Object> returnBooks(HttpServletRequest req){
+		Map<String, Object> params = PageUtils.getParameters(req);
+		Map<String,Object> resultMap=new HashMap<String,Object>();
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String nowdate=sdf.format(new Date());
+		
+		params.put("returneddate", nowdate);
+		int i=borrowService.returnBooks(params);
+		if(i<0) {
+			resultMap.put("rs", false);
+			resultMap.put("msg", "归还失败");
+			return resultMap;
+		}
+		resultMap.put("rs", true);
+		resultMap.put("msg", "归还成功");
+		return resultMap;
+	}
+	
 	/**
 	 * 还书 
 	 * @param req 传入用户id，图书id
@@ -169,6 +219,28 @@ public class BorrowController {
 		return resultMap;
 	}
 	
+	/**
+	 * 根据借阅编码获取借阅信息
+	 * @param req id
+	 * @return
+	 */
+	@RequestMapping("/getCurrentBorrowBookByBorrowId")
+	@ResponseBody
+	public Map<String,Object> getCurrentBorrowBookByBorrowId(HttpServletRequest req){
+		Map<String, Object> params = PageUtils.getParameters(req);
+		Map<String,Object> resultMap=new HashMap<String,Object>();
+		
+		List<Map<String,Object>> borrows=borrowService.getCurrentBorrowBookByBorrowId(params);
+		if(!borrows.isEmpty()){
+			resultMap.put("success", true);
+			resultMap.put("info", borrows.get(0));
+    	}else{
+    		resultMap.put("success", false);
+    		resultMap.put("msg", "没有记录!");
+    	}
+//		resultMap.put("data", books);
+		return resultMap;
+	}
 	
 	
 	

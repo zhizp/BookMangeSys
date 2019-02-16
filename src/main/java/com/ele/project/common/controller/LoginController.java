@@ -297,16 +297,38 @@ public class LoginController extends SupportAction {
     	Map<String, Object> params = PageUtils.getParameters(req);
     	Map<String, Object> returnMap = new HashMap<String, Object>();
     	int i =loginService.updateUserByid(params);
-    	if(i<0) {
+    	if(i<1) {
     		returnMap.put("rs", false);
     		returnMap.put("msg", "修改用户信息失败");
+    		return returnMap;
     	}
 		returnMap.put("rs", true);
 		returnMap.put("msg", "修改用户信息成功");
     	return returnMap;
     }
     
-    
+    /**
+     * 根据账号查询用户信息
+     * @param req
+     * @return
+     */
+    @RequestMapping("/getUserInfoByUsername")
+    @ResponseBody
+    public Map<String, Object> getUserInfoByUsername(HttpServletRequest req) {
+    	Map<String, Object> params = PageUtils.getParameters(req);
+    	List<Map<String,Object>> returnlist = new ArrayList<Map<String, Object>>();
+    	Map<String, Object> returnMap = new HashMap<String, Object>();
+    	returnlist=loginService.getUserDTOByName(params);
+    	if(!returnlist.isEmpty()){
+    		returnMap.put("success", true);
+    		returnMap.put("info", returnlist.get(0));
+    	}else{
+    		returnMap.put("success", false);
+    		returnMap.put("msg", "没有此用户!");
+    	}
+    	
+    	return returnMap;
+    }
     
     
 	

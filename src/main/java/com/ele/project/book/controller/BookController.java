@@ -191,6 +191,22 @@ public class BookController {
 		return resultMap;
 	}
 	
+	@RequestMapping("/getBookDetailByCallno")
+	@ResponseBody
+	public Map<String,Object> getBookDetailByCallno(HttpServletRequest req){
+		Map<String, Object> params = PageUtils.getParameters(req);
+		Map<String,Object> resultMap=new HashMap<String,Object>();
+		
+		List<Map<String,Object>> booklist=bookService.getBookDetailByCallno(params);
+		if(!booklist.isEmpty()){
+			resultMap.put("success", true);
+			resultMap.put("info", booklist.get(0));
+    	}else{
+    		resultMap.put("success", false);
+    		resultMap.put("msg", "没有此书籍!");
+    	}
+		return resultMap;
+	}
 	
 	
 	

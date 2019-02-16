@@ -95,4 +95,7 @@
 	<delete id="deleteBook" parameterType="Map">
 		delete from t_book where id=#{id}
 	</delete>
+	<select id="getBookDetailByCallno" parameterType="Map" resultType="Map">
+		select * from t_book where callno=#{callno}
+	</select>
 </mapper>
