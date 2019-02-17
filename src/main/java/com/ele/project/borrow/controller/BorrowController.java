@@ -56,6 +56,7 @@ public class BorrowController {
 		borrowService.updateCollectnumToBook(params);//图书可借数-1
 		resultMap.put("rs", true);
 		resultMap.put("msg", "借阅成功");
+		resultMap.put("id", params.get("id").toString());
 		return resultMap;
 	}
 	/**

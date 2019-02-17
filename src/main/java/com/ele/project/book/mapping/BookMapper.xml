@@ -32,11 +32,11 @@
 		limit #{page},#{pagesize}
 	</select>
 	<select id="searchBookCount" parameterType="Map" resultType="int">
-		select count(1) from t_book where   ( 1=1 
+		select count(1) from t_book where  
 		<if test="keyword!=null and keyword!=''">
-		or name=#{keyword} or author=#{keyword} or press=#{keyword}
+		 name=#{keyword} or author=#{keyword} or press=#{keyword}
 		</if>
-		) order by name
+		order by name
 	</select>
 	<select id="getBookDetailByid" parameterType="Map" resultType="Map">
 		select * from t_book where id=#{id}
@@ -51,13 +51,13 @@
 			,price
 			,press
 			,collectnum
-			,coverimg
 			,callno
 			,pagination
 			,intro
 			,isbn
 			,storagelocation
 			,publishingtime
+			,coverimg
 		)values(
 			#{id}
 		,#{name}
@@ -66,13 +66,13 @@
 		,#{price}
 		,#{press}
 		,#{collectnum}
-		,#{coverimg}
 		,#{callno}
 		,#{pagination}
 		,#{intro}
 		,#{isbn}
 		,#{storagelocation}
 		,#{publishingtime}
+		,#{coverimg}
 		)
 	</insert>
 	<update id="updateBook" parameterType="Map">
@@ -83,13 +83,13 @@
 			,price=#{price}
 			,press=#{press}
 			,collectnum=#{collectnum}
-			,coverimg=#{coverimg}
 			,callno=#{callno}
 			,pagination=#{pagination}
 			,intro=#{intro}
 			,isbn=#{isbn}
 			,storagelocation=#{storagelocation}
 			,publishingtime=#{publishingtime}
+			,coverimg=#{coverimg}
 			where id=#{id}
 	</update>
 	<delete id="deleteBook" parameterType="Map">

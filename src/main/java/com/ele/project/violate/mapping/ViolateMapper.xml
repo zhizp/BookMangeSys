@@ -14,7 +14,7 @@
 		left join t_book bk on bk.id=b.bookid 
 		left join t_user u on u.id=b.userid
 		left join t_violate v on v.borrowid=b.id
-		where u.id=#{userid}
+		where b.state=0 and  u.id=#{userid}
 		order by bk.name
 		limit #{page},#{pagesize} 
 	</select>
@@ -44,7 +44,7 @@
 		left join t_book bk on bk.id=b.bookid 
 		left join t_user u on u.id=b.userid
 		left join t_violate v on v.borrowid=b.id
-		where  u.id=#{userid}
+		where b.state=0 and  u.id=#{userid}
 	</select>
 	<delete id="deleteViolate" parameterType="java.lang.String">
         delete from t_violate where id in ${_parameter}

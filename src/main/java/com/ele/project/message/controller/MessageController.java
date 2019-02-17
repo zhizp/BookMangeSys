@@ -1,6 +1,8 @@
 package com.ele.project.message.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -65,10 +67,14 @@ public class MessageController {
 		Map<String, Object> params = PageUtils.getParameters(req);
 		Map<String,Object> resultMap=new HashMap<String,Object>();
 		params.put("id", UUID.randomUUID().toString());
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    	String nowdate=sdf.format(new Date());
+    	params.put("sendtime", nowdate);
 		int i=messageService.insertMessage(params);
-		if(i<0) {
+		if(i<1) {
 			resultMap.put("rs", false);
 			resultMap.put("msg", "新增消息失败");
+			return resultMap;
 		}
 		resultMap.put("rs", true);
 		resultMap.put("msg", "新增消息成功");

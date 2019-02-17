@@ -36,7 +36,7 @@
 				)
 	</insert>
 	<select id="queryUserList" parameterType="Map" resultType="Map">
-		select * from t_user where  state=0 and allowborrow=0 and (  
+		select * from t_user where  state=0  and (  
 		    username=#{username,jdbcType=VARCHAR}
 			or name=#{name,jdbcType=VARCHAR}
 			or cardid=#{cardid,jdbcType=VARCHAR}
@@ -45,7 +45,7 @@
 		LIMIT #{page},#{pagesize}
 	</select>
 	<select id="queryUserCount" parameterType="Map" resultType="int">
-		select count(1) from t_user where  state=0 and allowborrow=0 and (  
+		select count(1) from t_user where  state=0  and (  
 		    username=#{username,jdbcType=VARCHAR}
 			or name=#{name,jdbcType=VARCHAR}
 			or cardid=#{cardid,jdbcType=VARCHAR}
